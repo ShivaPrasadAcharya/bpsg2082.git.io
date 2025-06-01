@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BPSG-7th sem (2082)</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 15px 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.8em;
+      font-weight: 700;
+      background: linear-gradient(45deg, #005555, #007575);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-select {
+      padding: 10px 15px;
+      font-size: 1em;
+      border: 2px solid #005555;
+      border-radius: 25px;
+      background: white;
+      color: #005555;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 150px;
+    }
+
+    .nav-select:hover {
+      background: #005555;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .search-container {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 600px;
+      z-index: 999;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      transform: scale(1.02);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: #005555;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 160px auto 20px;
+      padding: 0 20px;
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      display: none;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1, h2 {
+      color: #005555;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 2em;
+    }
+
+    .welcome-text {
+      text-align: center;
+      font-size: 1.2em;
+      color: #666;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    th {
+      background: linear-gradient(45deg, #005555, #007575);
+      color: white;
+      padding: 20px 15px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 1.1em;
+    }
+
+    td {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+
+    tr:hover {
+      background: linear-gradient(90deg, rgba(0, 85, 85, 0.05), rgba(0, 117, 117, 0.05));
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .contact-name {
+      font-weight: 600;
+      color: #005555;
+      margin-bottom: 5px;
+    }
+
+    .contact-email {
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    .contact-email a {
+      color: #007575;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .contact-email a:hover {
+      color: #005555;
+      text-decoration: underline;
+    }
+
+    .contact-phone {
+      font-weight: 600;
+      color: #005555;
+      margin-bottom: 10px;
+    }
+
+    .topic {
+      margin-bottom: 15px;
+    }
+
+    .toggle-btn {
+      background: linear-gradient(45deg, #007575, #009595);
+      color: white;
+      border: none;
+      padding: 12px 15px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      border-radius: 10px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      font-size: 1em;
+    }
+
+    .toggle-btn:hover {
+      background: linear-gradient(45deg, #005555, #007575);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 85, 85, 0.3);
+    }
+
+    .outline {
+      display: none;
+      padding: 20px;
+      background: linear-gradient(135deg, #f8f9ff, #e8f4f8);
+      border-left: 4px solid #007575;
+      border-radius: 0 10px 10px 0;
+      margin-top: 5px;
+      animation: slideDown 0.3s ease;
+    }
+
+    .outline.show {
+      display: block;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        max-height: 0;
+      }
+      to {
+        opacity: 1;
+        max-height: 500px;
+      }
+    }
+
+    .outline p {
+      margin-bottom: 10px;
+    }
+
+    .outline strong {
+      color: #005555;
+    }
+
+    .call-btn {
+      background: linear-gradient(45deg, #4CAF50, #45a049);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    .call-btn:hover {
+      background: linear-gradient(45deg, #45a049, #4CAF50);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+    }
+
+    .phone-link {
+      color: #005555;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .phone-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background: linear-gradient(45deg, #005555, #007575);
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 50px;
+    }
+
+    footer p {
+      margin-bottom: 10px;
+    }
+
+    footer a {
+      color: #aaffff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    #developedby {
+      font-style: italic;
+      color: #aaffff;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        padding: 15px;
+      }
+
+      .nav-links {
+        margin-top: 15px;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .nav-select {
+        min-width: 200px;
+      }
+
+      .search-container {
+        top: 120px;
+        width: 95%;
+      }
+
+      main {
+        margin-top: 200px;
+        padding: 0 15px;
+      }
+
+      .section {
+        padding: 20px;
+        border-radius: 15px;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+
+      table {
+        font-size: 0.9em;
+      }
+
+      th, td {
+        padding: 12px 10px;
+      }
+
+      .logo {
+        font-size: 1.5em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .search-container {
+        top: 140px;
+      }
+
+      main {
+        margin-top: 220px;
+      }
+
+      .section {
+        padding: 15px;
+      }
+
+      th, td {
+        padding: 10px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">🚀 Emerging Tech & Contacts</div>
+      <ul class="nav-links">
+        <li>
+          <select id="sectionFilter" class="nav-select">
+            <option value="home">🏠 Home</option>
+            <option value="topics">📚 Topic Assignments</option>
+            <option value="contacts" selected>📞 Contact Directory</option>
+            <option value="about">ℹ️ About</option>
+            <option value="contact">📧 Contact</option>
+          </select>
+        </li>
+      </ul>
+      <div class="menu-toggle">☰</div>
+    </nav>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="🔍 Search students, topics, or contacts..." class="search-input">
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="section">
+      <h1>Welcome to Public Service Management-II</h1>
+      <p class="welcome-text">Explore student assignments on emerging technologies and comprehensive contact details of BPSG students 7th semester (3rd batch). Discover innovation & stay ahead in the digital transformation journey.</p>
+    </section>
+
+    <section id="topics" class="section">
+      <h1>Student Technology Assignments</h1>
+      <table id="assignmentTable">
+        <thead>
+          <tr>
+            <th style="width: 25%;">👨‍🎓 Student Name</th>
+            <th style="width: 75%;">🔬 Assigned Technologies</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Aarya Shree Neupane</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">🆔 e-Identity (Estonia)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Estonia's e-Identity system provides secure digital IDs for accessing online services.</p>
+                  <p><strong>Technical/Operational Framework:</strong> National ID cards with chip technology, public-key infrastructure (PKI), and authentication protocols.</p>
+                  <p><strong>Applications and Impact:</strong> Enables e-governance services like tax filing and e-voting, reducing bureaucracy and enhancing security.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Addressing privacy concerns, improving cybersecurity, and exploring global adoption.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🌐 Metaverse Governance</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Governance frameworks for managing virtual worlds in the metaverse, ensuring security and fairness.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Blockchain-based identity systems, smart contracts, and AI-driven moderation tools.</p>
+                  <p><strong>Applications and Impact:</strong> Supports virtual economies, digital property rights, and safe user interactions in virtual spaces.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Legal recognition, interoperability between platforms, and preventing digital monopolies.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>2. Anju Kumari Mahato</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">🏛️ e-Residency (Estonia)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Estonia's e-Residency allows non-residents to access digital services and start businesses remotely.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Digital ID issuance, secure e-service access, and integration with banking systems.</p>
+                  <p><strong>Applications and Impact:</strong> Facilitates global entrepreneurship, boosts Estonia's economy, and enables remote business operations.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Global legal recognition, scalability, and preventing misuse for illicit activities.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🌱 Green Hydrogen Technology</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Green hydrogen as a clean energy source produced using renewable energy for sustainable development.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Electrolysis powered by wind/solar, hydrogen storage, and fuel cell systems.</p>
+                  <p><strong>Applications and Impact:</strong> Decarbonizes industries like transportation and manufacturing, supports energy transition.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> High production costs, infrastructure development, and scaling renewable energy inputs.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>3. Anu Yaduwanshi</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">📱 Smart-ID (Estonia)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Smart-ID is a mobile-based authentication tool for secure digital access in Estonia.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Smartphone app with cryptographic security, integrated with e-services.</p>
+                  <p><strong>Applications and Impact:</strong> Simplifies access to banking and government services, widely adopted in the Baltic region.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Accessibility in low-tech areas, cybersecurity enhancements, and cross-border use.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🧠 Brain-Computer Interfaces</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Brain-computer interfaces (BCIs) enable direct communication between the brain and devices.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Neural signal processing, machine learning, and implantable/wearable devices.</p>
+                  <p><strong>Applications and Impact:</strong> Enhances medical treatments, supports accessibility for disabled individuals, and enables new human-machine interactions.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Ethical concerns, signal accuracy, and long-term safety of implants.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>4. Archana Karki</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">🔗 X-Road (Estonia)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> X-Road is Estonia's data exchange platform for secure, seamless interoperability.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Decentralized architecture, secure data transfer protocols, and open-source design.</p>
+                  <p><strong>Applications and Impact:</strong> Enables efficient government data sharing, reduces redundancy, and improves service delivery.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Global scalability, maintaining security, and adapting to new data standards.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🚁 Autonomous Delivery Systems</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Autonomous delivery systems use robots and drones for efficient, automated logistics.</p>
+                  <p><strong>Technical/Operational Framework:</strong> AI navigation, sensor-based obstacle avoidance, and cloud-based fleet management.</p>
+                  <p><strong>Applications and Impact:</strong> Reduces delivery costs, enhances last-mile logistics, and supports e-commerce growth.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Regulatory hurdles, public acceptance, and urban infrastructure integration.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>5. Chetana Bhandari</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">🏠 e-Land Register (Estonia)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Estonia's e-Land Register digitizes property records for transparency and efficiency.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Blockchain-based records, digital signatures, and e-governance integration.</p>
+                  <p><strong>Applications and Impact:</strong> Streamlines property transactions, reduces fraud, and enhances trust in land ownership.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Global adoption, handling complex disputes, and system upgrades.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🧬 Synthetic Biology</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Synthetic biology engineers biological systems for innovative applications.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Gene editing, synthetic DNA, and computational modeling for organism design.</p>
+                  <p><strong>Applications and Impact:</strong> Advances in medicine, agriculture, and biofuels; supports sustainable production.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Ethical concerns, biosafety risks, and regulatory frameworks.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>6. Dikshya Bhattarai</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">👥 Population Registry (Estonia)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Estonia's Population Registry centralizes citizen data for efficient governance.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Secure databases, real-time updates, and integration with e-services.</p>
+                  <p><strong>Applications and Impact:</strong> Simplifies administrative processes, supports data-driven policies, and enhances service delivery.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Data privacy, cross-border data sharing, and scalability.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🛰️ Space-Based Solar Power</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Space-based solar power captures solar energy in orbit for transmission to Earth.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Orbital solar panels, wireless power transmission, and ground receivers.</p>
+                  <p><strong>Applications and Impact:</strong> Provides continuous clean energy, reduces reliance on fossil fuels.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> High launch costs, transmission efficiency, and international cooperation.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>7. Divya Shree Acharya</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">♻️ E-waste Recycling (China)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> China's e-waste recycling initiatives promote sustainable electronic waste management.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Automated recycling systems, material recovery, and regulatory enforcement.</p>
+                  <p><strong>Applications and Impact:</strong> Reduces pollution, recovers valuable materials, and supports a circular economy.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Regulatory enforcement, informal recycling sectors, and technology upgrades.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🤖 Swarm Robotics</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Swarm robotics involves coordinated robots working collaboratively, inspired by nature.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Distributed AI, sensor networks, and communication protocols for robot swarms.</p>
+                  <p><strong>Applications and Impact:</strong> Enhances search and rescue, agriculture, and environmental monitoring.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Scalability, swarm coordination, and energy efficiency.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>8. Ganga Acharya</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">⛓️ KSI Blockchain (Estonia)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> KSI Blockchain ensures data integrity in Estonia's e-governance systems.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Scalable blockchain, cryptographic hashing, and timestamping.</p>
+                  <p><strong>Applications and Impact:</strong> Secures records, prevents tampering, and builds trust in digital systems.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Energy efficiency, blockchain interoperability, and global adoption.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🏭 Carbon Capture and Storage</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Carbon capture and storage (CCS) mitigates climate change by capturing CO2 emissions.</p>
+                  <p><strong>Technical/Operational Framework:</strong> CO2 capture technologies, underground storage, and monitoring systems.</p>
+                  <p><strong>Applications and Impact:</strong> Reduces industrial emissions, supports climate goals, and enables carbon-neutral industries.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> High costs, storage safety, and scaling deployment.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>9. Gazal Bhattarai</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">⚖️ e-Justice (Estonia)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Estonia's e-Justice system digitizes judicial processes for efficiency.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Online case management, digital signatures, and secure document platforms.</p>
+                  <p><strong>Applications and Impact:</strong> Speeds up legal proceedings, improves access to justice, and reduces costs.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Equitable access, cybersecurity, and international legal harmonization.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🏥 Augmented Reality in Healthcare</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Augmented reality (AR) enhances healthcare through immersive visualizations.</p>
+                  <p><strong>Technical/Operational Framework:</strong> AR headsets, 3D modeling, and real-time data integration.</p>
+                  <p><strong>Applications and Impact:</strong> Improves surgical precision, medical training, and patient education.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Device costs, data privacy, and clinical adoption.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>10. Jamuna Acharya</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">👮 e-Police (Estonia)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Estonia's e-Police system digitizes law enforcement operations.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Mobile apps, real-time data access, and national database integration.</p>
+                  <p><strong>Applications and Impact:</strong> Enhances policing efficiency, improves response times, and supports crime prevention.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Balancing surveillance and privacy, officer training, and system expansion.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">💰 Decentralized Finance (DeFi)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> DeFi uses blockchain for decentralized financial services, bypassing traditional institutions.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Smart contracts, blockchain platforms (e.g., Ethereum), and token systems.</p>
+                  <p><strong>Applications and Impact:</strong> Enables peer-to-peer lending, trading, and financial inclusion.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Regulatory uncertainty, security risks, and scalability.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>11. Jeeya Shakya</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">🗳️ i-Voting (Estonia)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Estonia's i-Voting enables secure online elections.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Digital ID authentication, encrypted voting protocols, and audit systems.</p>
+                  <p><strong>Applications and Impact:</strong> Increases voter turnout, reduces election costs, and enhances accessibility.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Cybersecurity, public trust, and global electoral adoption.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🔐 Biometric Authentication Systems</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Biometric systems use unique physical traits for secure authentication.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Fingerprint, facial recognition, and iris scanning technologies with AI integration.</p>
+                  <p><strong>Applications and Impact:</strong> Enhances security in banking, travel, and device access.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Privacy concerns, spoofing risks, and universal standards.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>12. Mausami Shahi</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">☁️ Government Cloud (Estonia)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Estonia's Government Cloud hosts e-governance services for reliability.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Cloud infrastructure, data security protocols, and scalability features.</p>
+                  <p><strong>Applications and Impact:</strong> Centralizes IT resources, reduces costs, and ensures service continuity.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Cloud security, vendor lock-in, and international collaboration.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🌱 Urban Vertical Farming</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Urban vertical farming uses stacked systems for sustainable food production.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Hydroponics, LED lighting, and IoT for crop monitoring.</p>
+                  <p><strong>Applications and Impact:</strong> Increases food security, reduces transport emissions, and optimizes land use.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> High setup costs, energy consumption, and scaling production.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>13. Pratikshya Bastola</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">🚦 Intelligent Transportation Systems (Estonia)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Estonia's Intelligent Transportation Systems enable smart mobility.</p>
+                  <p><strong>Technical/Operational Framework:</strong> IoT sensors, real-time traffic management, and autonomous vehicle integration.</p>
+                  <p><strong>Applications and Impact:</strong> Reduces congestion, enhances safety, and supports sustainable transport.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Infrastructure costs, data privacy, and rural scalability.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🧠 Neuromorphic Computing</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Neuromorphic computing mimics the human brain for efficient processing.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Spiking neural networks, specialized chips, and low-power architectures.</p>
+                  <p><strong>Applications and Impact:</strong> Enhances AI, robotics, and real-time data processing.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Hardware development, software compatibility, and commercial adoption.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>14. Rima Khadka</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">🏛️ Data Embassy (Estonia)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Estonia's Data Embassy ensures secure data storage abroad.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Cloud-based replication, international agreements, and cybersecurity measures.</p>
+                  <p><strong>Applications and Impact:</strong> Protects data sovereignty, ensures continuity during crises.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Legal complexities, overseas infrastructure costs, and global scalability.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">⚡ Smart Grid Modernization</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Smart grids modernize electricity distribution with real-time management.</p>
+                  <p><strong>Technical/Operational Framework:</strong> IoT sensors, AI analytics, and renewable energy integration.</p>
+                  <p><strong>Applications and Impact:</strong> Improves energy efficiency, reduces outages, and supports renewables.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Infrastructure costs, cybersecurity, and regulatory alignment.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>15. Sakshi Kumara Jha</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">🤖 Artificial Intelligence and Regulatory Sandbox (Singapore)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Singapore's AI and regulatory sandbox fosters innovation with governance.</p>
+                  <p><strong>Technical/Operational Framework:</strong> AI algorithms, sandbox testing environments, and ethical guidelines.</p>
+                  <p><strong>Applications and Impact:</strong> Drives innovation in finance, healthcare, and logistics with safe testing.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Balancing innovation and regulation, ethical concerns, and global competition.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🧬 Gene Editing (CRISPR)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> CRISPR enables precise genetic modifications for various applications.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Cas9 proteins, guide RNA, and genome editing protocols.</p>
+                  <p><strong>Applications and Impact:</strong> Advances medical treatments, agriculture, and disease resistance.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Ethical dilemmas, off-target effects, and regulatory frameworks.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>16. Supnima KC</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">🏙️ Dubai 10x Innovations (UAE)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Dubai's 10x initiative drives transformative government projects.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Cross-sector collaboration, prototyping, and disruptive technology integration.</p>
+                  <p><strong>Applications and Impact:</strong> Enhances public services, promotes smart governance, and attracts investment.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Implementation costs, stakeholder alignment, and sustainability.</p>
+                </div>
+              </div>
+             <div class="topic"> <button class="toggle-btn">🏥 Patient Innovation Platform of Portugal</button> <div class="outline"> <p><strong>Introduction:</strong> A nonprofit online platform where patients and caregivers share innovative solutions to manage health conditions</p> 
+
+<p><strong>Technical/Operational Framework:</strong> Web-based platform with solution validation, community rating system, and multilingual support .</p>
+
+<p><strong>Applications and Impact:</strong> 850+ validated solutions from 60+ countries covering medical devices, care strategies, and software tools .</p>
+
+<p><strong>Challenges and Future Prospects:</strong> Solution validation, regulatory compliance, and healthcare system integration remain key challenges.</p>
+
+ </div> 
+</div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>17. Sweta Ray</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">🌍 Global Development Lab (USA)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> USAID's Global Development Lab drives technology solutions for global challenges.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Tech partnerships, data analytics, and innovation hubs.</p>
+                  <p><strong>Applications and Impact:</strong> Addresses poverty, health, and education through innovative solutions.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Funding constraints, scaling solutions, and impact measurement.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🚄 Hyperloop Transportation</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Hyperloop offers high-speed, low-friction transport in vacuum tubes.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Magnetic levitation, vacuum tube systems, and AI control systems.</p>
+                  <p><strong>Applications and Impact:</strong> Reduces travel times, lowers emissions, and transforms logistics.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> High costs, regulatory approvals, and infrastructure development.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>18. Yunika Guragain</strong></td>
+            <td>
+              <div class="topic">
+                <button class="toggle-btn">👴 Seoul 50+ Policy (South Korea)</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Seoul's 50+ Policy empowers citizens over 50 through technology and programs.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Digital training, job-matching systems, and community platforms.</p>
+                  <p><strong>Applications and Impact:</strong> Enhances employability, promotes lifelong learning, and supports aging populations.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> Accessibility for non-tech-savvy seniors, funding, and global replication.</p>
+                </div>
+              </div>
+              <div class="topic">
+                <button class="toggle-btn">🌊 Ocean Energy Harvesting</button>
+                <div class="outline">
+                  <p><strong>Introduction:</strong> Ocean energy harvesting captures energy from waves, tides, and currents.</p>
+                  <p><strong>Technical/Operational Framework:</strong> Wave energy converters, tidal turbines, and grid integration systems.</p>
+                  <p><strong>Applications and Impact:</strong> Provides renewable energy, supports coastal communities, and reduces emissions.</p>
+                  <p><strong>Challenges and Future Prospects:</strong> High costs, environmental impacts, and technological scalability.</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="contacts" class="section active">
+      <h1>📞 Teacher-Student Directory</h1>
+      <h2 style="color: #007575; margin-bottom: 30px;">BPSG 7th sem (2082)</h2>
+      <table id="contactTable">
+        <thead>
+          <tr>
+            <th style="width: 60%;">👤 Name, Position & Email</th>
+            <th style="width: 40%;">📱 Contact Information</th>
+          </tr>
+        </thead>
+        <tbody>
+                   <tr>
+            <td>
+              <div class="contact-name">Shri Shiva Prasad Acharya</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Teacher-PSM-II</div>
+              <div class="contact-email"><a href="mailto:spacharya43@gmail.com">📧 spacharya43@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9849667879</div>
+              <a href="tel:+9779849667879" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+                   <tr>
+            <td>
+              <div class="contact-name">Shri Aarya Shree Neupane</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:shreeaaryaneupane60@gmail.com">📧 shreeaaryaneupane60@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9860058255</div>
+              <a href="tel:+9779860058255" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Anju Kumari Mahato</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:anju.ar045@gmail.com">📧 anju.ar045@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9813910560</div>
+              <a href="tel:+9779813910560" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Anu Yaduwanshi</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student -CR</div>
+              <div class="contact-email"><a href="mailto:anuyaduwanshi@gmail.com">📧 anuyaduwanshi@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9803157609</div>
+              <a href="tel:+9779803157609" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Archana Karki</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:archanakarkii32@gmail.com">📧 archanakarkii32@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9749340932</div>
+              <a href="tel:+9779749340932" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Chetana Bhandari</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:chetanabhandari649@gmail.com">📧 chetanabhandari649@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9764182450</div>
+              <a href="tel:+9779764182450" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Dikshya Bhattarai</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:dikshyabh3@gmail.com">📧 dikshyabh3@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9861281511</div>
+              <a href="tel:+9779861281511" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Divya Shree Acharya</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:divyaacharya@gmail.com">📧 divyaacharya@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9840033503</div>
+              <a href="tel:+9779840033503" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Ganga Acharya</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:gangaacharya042@gmail.com">📧 gangaacharya042@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9848292264</div>
+              <a href="tel:+9779848292264" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Gazal Bhattarai</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:gzlbhattarai@gmail.com">📧 gzlbhattarai@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9844777190</div>
+              <a href="tel:+9779844777190" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Jamuna Acharya</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:acharyajamuna86@gmail.com">📧 acharyajamuna86@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9806079884</div>
+              <a href="tel:+9779806079884" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Jeeya Shakya</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:jeeyashakya02@gmail.com">📧 jeeyashakya02@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9863732413</div>
+              <a href="tel:+9779863732413" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Mausami Shahi</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:mausamishahi777@gmail.com">📧 mausamishahi777@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9864925935</div>
+              <a href="tel:+9779864925935" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Pratikshya Bastola</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:pratikshyabastola08@gmail.com">📧 pratikshyabastola08@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9808249638</div>
+              <a href="tel:+9779808249638" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Rima Khadka</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:khadkarima287@gmail.com">📧 khadkarima287@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9842150480</div>
+              <a href="tel:+9779842150480" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Sakshi Jha</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:zshz01@gmail.com">📧 zshz01@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9869996105</div>
+              <a href="tel:+9779869996105" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Supnima KC</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:kcsupnima@gmail.com">📧 kcsupnima@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9868007610</div>
+              <a href="tel:+9779868007610" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Sweta Ray</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:swetaray342@gmail.com">📧 swetaray342@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9816806342</div>
+              <a href="tel:+9779816806342" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="contact-name">Shri Yunika Guragain</div>
+              <div style="color: #666; font-style: italic; margin-bottom: 8px;">Student</div>
+              <div class="contact-email"><a href="mailto:guragainyunika08@gmail.com">📧 guragainyunika08@gmail.com</a></div>
+            </td>
+            <td>
+              <div class="contact-phone">📞 +977-9845767900</div>
+              <a href="tel:+9779845767900" class="call-btn">📞 Call Now</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="about" class="section">
+      <h1>About This Platform</h1>
+      <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <p style="font-size: 1.2em; margin-bottom: 30px;">This comprehensive platform serves as a bridge between students and teacher and strengthens the mutual knowledge sharing and enhancement of critical thinking  in regard to the PSM-II.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px;">
+          <div style="background: linear-gradient(135deg, #f8f9ff, #e8f4f8); padding: 30px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.1);">
+            <h3 style="color: #005555; margin-bottom: 15px;">🎓 Educational Excellence</h3>
+            <p>Explore cutting-edge research assignments covering global technology initiatives and innovative solutions.</p>
+          </div>
+          
+          <div style="background: linear-gradient(135deg, #f8f9ff, #e8f4f8); padding: 30px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.1);">
+            <h3 style="color: #005555; margin-bottom: 15px;">🏛️ Institutional Network</h3>
+                     </div>
+          
+          <div style="background: linear-gradient(135deg, #f8f9ff, #e8f4f8); padding: 30px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.1);">
+            <h3 style="color: #005555; margin-bottom: 15px;">🚀 Innovation Hub</h3>
+            <p>Discover transformative technologies inspired by Estonia's digital governance model and global best practices.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h1>Get in Touch</h1>
+      <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+        <div style="background: linear-gradient(135deg, #f8f9ff, #e8f4f8); padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+          <h3 style="color: #005555; margin-bottom: 30px;">📧 Contact Information</h3>
+          
+          <div style="margin-bottom: 25px;">
+            <p style="font-size: 1.1em; margin-bottom: 10px;"><strong>Email:</strong></p>
+            <a href=" shiva.acharya@supremecourt.gov.np" style="color: #007575; font-size: 1.2em; text-decoration: none;">📧 Shiva.Acharya@supremecourt.gov.np</a>
+          </div>
+          
+          <div style="margin-bottom: 25px;">
+            <p style="font-size: 1.1em; margin-bottom: 10px;"><strong>Phone:</strong></p>
+            <a href="tel:+9779849667879" style="color: #007575; font-size: 1.2em; text-decoration: none;">📞 +977 9849667879</a>
+          </div>
+          
+          <div style="margin-top: 30px;">
+            <p style="color: #666; font-style: italic;"> Explore the future of technology and governance!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+      <p style="font-size: 1.2em; margin-bottom: 15px;"><strong>Special thanks to Anu Yaduwanshi for providing necessary data to create this page.</strong></p>
+      
+      <div id="developedby" style="margin: 30px 0;">
+        <p><strong><u>Developed By:</u></strong></p>
+        <p>शिवप्रसाद आचार्य</p>
+        <p>२०८१,शनि जयन्ति</p>
+              </div>
+      
+      <div style="margin: 20px 0;">
+        <p>Important Link: <a href="https://shivaprasadacharya.github.io/bpsg.git.io/">BPSG-2080</a></p>
+      </div>
+      
+      <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+        © Shiva Prasad Acharya (2082)
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Section filter functionality
+      const sectionFilter = document.getElementById('sectionFilter');
+      const sections = document.querySelectorAll('.section');
+      const searchInput = document.getElementById('searchInput');
+
+      // Show selected section
+      function showSection(sectionId) {
+        sections.forEach(section => {
+          section.classList.remove('active');
+          if (section.id === sectionId) {
+            section.classList.add('active');
+          }
+        });
+      }
+
+      // Section filter change handler
+      sectionFilter.addEventListener('change', () => {
+        const selectedSection = sectionFilter.value;
+        showSection(selectedSection);
+        
+        // Update search placeholder
+        if (selectedSection === 'topics') {
+          searchInput.placeholder = '🔍 Search students or technologies...';
+        } else if (selectedSection === 'contacts') {
+          searchInput.placeholder = '🔍 Search contacts...';
+        } else {
+          searchInput.placeholder = '🔍 Search students, topics, or contacts...';
+        }
+        
+        // Clear search when switching sections
+        searchInput.value = '';
+        performSearch('');
+      });
+
+      // Unified search functionality
+      function performSearch(query) {
+        const currentSection = sectionFilter.value;
+        
+        if (currentSection === 'topics' || currentSection === 'contacts') {
+          const table = currentSection === 'topics' ? 
+            document.getElementById('assignmentTable') : 
+            document.getElementById('contactTable');
+          
+          const rows = table.getElementsByTagName('tr');
+          
+          for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            const cellText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
+            
+            if (cellText.includes(query.toLowerCase())) {
+              rows[i].style.display = '';
+            } else {
+              rows[i].style.display = 'none';
+            }
+          }
+        }
+      }
+
+      // Search input handler
+      searchInput.addEventListener('input', (e) => {
+        performSearch(e.target.value);
+      });
+
+      // Toggle functionality for topic outlines
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('toggle-btn')) {
+          const outline = e.target.nextElementSibling;
+          outline.classList.toggle('show');
+        }
+      });
+
+      // Mobile menu toggle (if needed in future)
+      const menuToggle = document.querySelector('.menu-toggle');
+      const navLinks = document.querySelector('.nav-links');
+
+      if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+          navLinks.classList.toggle('show');
+        });
+      }
+
+      // Smooth scrolling for better UX
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+
+      // Add loading animation for better perceived performance
+      window.addEventListener('load', () => {
+        document.body.style.opacity = '1';
+      });
+
+      // Enhanced call functionality
+      window.call = function(number) {
+        // Remove any spaces or dashes from the number
+        const cleanNumber = number.replace(/[\s-]/g, '');
+        window.location.href = `tel:${cleanNumber}`;
+      };
+
+      // Initialize with contacts section active
+      showSection('contacts');
+    });
+
+    // Add some interactive animations
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add hover effects to cards
+      const cards = document.querySelectorAll('.section');
+      cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-2px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+
+      // Add ripple effect to buttons
+      document.querySelectorAll('.call-btn, .toggle-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+          const ripple = document.createElement('span');
+          const rect = this.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const x = e.clientX - rect.left - size / 2;
+          const y = e.clientY - rect.top - size / 2;
+          
+          ripple.style.width = ripple.style.height = size + 'px';
+          ripple.style.left = x + 'px';
+          ripple.style.top = y + 'px';
+          ripple.classList.add('ripple');
+          
+          this.appendChild(ripple);
+          
+          setTimeout(() => {
+            ripple.remove();
+          }, 600);
+        });
+      });
+    });
+
+    // Add CSS for ripple effect
+    const style = document.createElement('style');
+    style.textContent = `
+      .call-btn, .toggle-btn {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        transform: scale(0);
+        animation: ripple-animation 0.6s linear;
+        pointer-events: none;
+      }
+      
+      @keyframes ripple-animation {
+        to {
+          transform: scale(4);
+          opacity: 0;
+        }
+      }
+      
+      body {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      .section {
+        transition: transform 0.3s ease;
+      }
+      
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
