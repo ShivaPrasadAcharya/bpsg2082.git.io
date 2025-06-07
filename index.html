@@ -192,6 +192,43 @@
     tr:last-child td {
       border-bottom: none;
     }
+    
+    .link-button {
+      background: linear-gradient(45deg, #007575, #009595);
+      color: white !important;
+      padding: 8px 15px;
+      border-radius: 20px;
+      text-decoration: none;
+      display: inline-block;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .link-button:hover {
+      background: linear-gradient(45deg, #005555, #007575);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 85, 85, 0.3);
+    }
+    
+    .note-card {
+      background: linear-gradient(135deg, #f8f9ff, #e8f4f8);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      border-left: 4px solid #007575;
+    }
+    .note-card h3 {
+      color: #005555;
+      margin-bottom: 15px;
+    }
+    .note-card ul {
+      list-style-position: inside;
+      padding-left: 5px;
+    }
+    .note-card li {
+      margin-bottom: 10px;
+    }
 
     .contact-name {
       font-weight: 600;
@@ -357,6 +394,10 @@
         width: 100%;
         justify-content: center;
       }
+      
+      .logo {
+        text-align: center;
+      }
 
       .nav-select {
         min-width: 200px;
@@ -416,13 +457,17 @@
 <body>
   <header>
     <nav class="navbar">
-      <div class="logo">🚀 Emerging Tech & Contacts</div>
+      <div class="logo">🚀 Emerging Tech & Public Service</div>
       <ul class="nav-links">
         <li>
           <select id="sectionFilter" class="nav-select">
             <option value="home">🏠 Home</option>
             <option value="topics">📚 Topic Assignments</option>
             <option value="contacts" selected>📞 Contact Directory</option>
+            <!-- START: Added Links & Notes Options -->
+            <option value="links">🔗 Important Links</option>
+            <option value="notes">📝 General Notes</option>
+            <!-- END: Added Links & Notes Options -->
             <option value="about">ℹ️ About</option>
             <option value="contact">📧 Contact</option>
           </select>
@@ -1093,11 +1138,76 @@
         </tbody>
       </table>
     </section>
+    
+    <!-- START: Added Links Section -->
+    <section id="links" class="section">
+      <h1>🔗 Important Links</h1>
+      <table id="linksTable">
+        <thead>
+          <tr>
+            <th style="width: 30%;">Resource</th>
+            <th style="width: 50%;">Description</th>
+            <th style="width: 20%; text-align: center;">Visit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>e-Estonia</strong></td>
+            <td>The official portal for Estonia's world-renowned digital society and e-governance services. A key case study for our course.</td>
+            <td style="text-align: center;"><a href="https://e-estonia.com/" target="_blank" class="link-button">Visit Site</a></td>
+          </tr>
+          <tr>
+            <td><strong>Supreme Court of Nepal</strong></td>
+            <td>Official website for judicial information, case status, and publications relevant to public service and law.</td>
+            <td style="text-align: center;"><a href="https://supremecourt.gov.np/" target="_blank" class="link-button">Visit Site</a></td>
+          </tr>
+          <tr>
+            <td><strong>Office of the Prime Minister and Council of Ministers</strong></td>
+            <td>Central government portal for policies, decisions, and news related to public administration in Nepal.</td>
+            <td style="text-align: center;"><a href="https://www.opmcm.gov.np/" target="_blank" class="link-button">Visit Site</a></td>
+          </tr>
+          <tr>
+            <td><strong>World Bank Open Data</strong></td>
+            <td>Free and open access to global development data, useful for research on public service indicators and outcomes.</td>
+            <td style="text-align: center;"><a href="https://data.worldbank.org/" target="_blank" class="link-button">Visit Site</a></td>
+          </tr>
+          <tr>
+            <td><strong>UNDP Nepal</strong></td>
+            <td>Information on the United Nations Development Programme's projects in Nepal, focusing on governance, resilience, and sustainable development.</td>
+            <td style="text-align: center;"><a href="https://www.undp.org/nepal" target="_blank" class="link-button">Visit Site</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <!-- END: Added Links Section -->
+
+    <!-- START: Added Notes Section -->
+    <section id="notes" class="section">
+      <h1>📝 General Notes</h1>
+      <div class="note-card">
+        <h3>🔑 Key Course Reminders</h3>
+        <ul>
+          <li>Final presentations are scheduled for the last week of classes. Please check the notice board for the exact schedule.</li>
+          <li>All technology assignment write-ups are due two weeks before the final exam date.</li>
+          <li>Peer review feedback is a mandatory component of the final grade. Ensure you review the assigned peer's work.</li>
+        </ul>
+      </div>
+      <div class="note-card">
+        <h3>💡 Exam Focus Areas</h3>
+        <ul>
+          <li>Comparative analysis of e-governance models (e.g., Estonia vs. Singapore).</li>
+          <li>The role of emerging technologies (AI, Blockchain, IoT) in modernizing public services.</li>
+          <li>Challenges and ethical considerations in digital public administration.</li>
+          <li>Policy frameworks for technology adoption in developing countries.</li>
+        </ul>
+      </div>
+    </section>
+    <!-- END: Added Notes Section -->
 
     <section id="about" class="section">
       <h1>About This Platform</h1>
       <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-        <p style="font-size: 1.2em; margin-bottom: 30px;">This comprehensive platform serves as a bridge between students and teacher and strengthens the mutual knowledge sharing and enhancement of critical thinking  in regard to the PSM-II.</p>
+        <p style="font-size: 1.2em; margin-bottom: 30px;">This comprehensive platform serves as a bridge between students and teacher and strengthens the mutual knowledge sharing and enhancement of critical thinking in regard to the PSM-II.</p>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px;">
           <div style="background: linear-gradient(135deg, #f8f9ff, #e8f4f8); padding: 30px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.1);">
@@ -1107,7 +1217,8 @@
           
           <div style="background: linear-gradient(135deg, #f8f9ff, #e8f4f8); padding: 30px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.1);">
             <h3 style="color: #005555; margin-bottom: 15px;">🏛️ Institutional Network</h3>
-                     </div>
+            <p>A comprehensive directory to facilitate seamless communication between the teacher and students of the BPSG 7th semester.</p>
+          </div>
           
           <div style="background: linear-gradient(135deg, #f8f9ff, #e8f4f8); padding: 30px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.1);">
             <h3 style="color: #005555; margin-bottom: 15px;">🚀 Innovation Hub</h3>
@@ -1125,7 +1236,7 @@
           
           <div style="margin-bottom: 25px;">
             <p style="font-size: 1.1em; margin-bottom: 10px;"><strong>Email:</strong></p>
-            <a href=" shiva.acharya@supremecourt.gov.np" style="color: #007575; font-size: 1.2em; text-decoration: none;">📧 Shiva.Acharya@supremecourt.gov.np</a>
+            <a href="mailto:shiva.acharya@supremecourt.gov.np" style="color: #007575; font-size: 1.2em; text-decoration: none;">📧 shiva.acharya@supremecourt.gov.np</a>
           </div>
           
           <div style="margin-bottom: 25px;">
@@ -1163,12 +1274,12 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Section filter functionality
+      // Get all necessary elements
       const sectionFilter = document.getElementById('sectionFilter');
       const sections = document.querySelectorAll('.section');
       const searchInput = document.getElementById('searchInput');
 
-      // Show selected section
+      // Function to show the selected section
       function showSection(sectionId) {
         sections.forEach(section => {
           section.classList.remove('active');
@@ -1178,121 +1289,126 @@
         });
       }
 
-      // Section filter change handler
+      // Handle section filter changes
       sectionFilter.addEventListener('change', () => {
         const selectedSection = sectionFilter.value;
         showSection(selectedSection);
         
-        // Update search placeholder
-        if (selectedSection === 'topics') {
-          searchInput.placeholder = '🔍 Search students or technologies...';
-        } else if (selectedSection === 'contacts') {
-          searchInput.placeholder = '🔍 Search contacts...';
-        } else {
-          searchInput.placeholder = '🔍 Search students, topics, or contacts...';
+        // Update search placeholder based on the active section
+        switch (selectedSection) {
+          case 'topics':
+            searchInput.placeholder = '🔍 Search students or technologies...';
+            break;
+          case 'contacts':
+            searchInput.placeholder = '🔍 Search contacts by name or number...';
+            break;
+          case 'links':
+            searchInput.placeholder = '🔍 Search links or descriptions...';
+            break;
+          default:
+            searchInput.placeholder = '🔍 Search...';
+            break;
         }
         
-        // Clear search when switching sections
+        // Clear search input and results when switching sections
         searchInput.value = '';
         performSearch('');
       });
 
-      // Unified search functionality
+      // Unified search function
       function performSearch(query) {
-        const currentSection = sectionFilter.value;
+        const currentSectionId = sectionFilter.value;
+        const lowerCaseQuery = query.toLowerCase();
         
-        if (currentSection === 'topics' || currentSection === 'contacts') {
-          const table = currentSection === 'topics' ? 
-            document.getElementById('assignmentTable') : 
-            document.getElementById('contactTable');
-          
-          const rows = table.getElementsByTagName('tr');
-          
-          for (let i = 1; i < rows.length; i++) {
-            const cells = rows[i].getElementsByTagName('td');
-            const cellText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
-            
-            if (cellText.includes(query.toLowerCase())) {
-              rows[i].style.display = '';
-            } else {
-              rows[i].style.display = 'none';
-            }
+        // Determine which table to search
+        let table;
+        if (currentSectionId === 'topics') {
+          table = document.getElementById('assignmentTable');
+        } else if (currentSectionId === 'contacts') {
+          table = document.getElementById('contactTable');
+        } else if (currentSectionId === 'links') {
+          table = document.getElementById('linksTable');
+        } else {
+          return; // No searchable table in this section
+        }
+
+        const rows = table.getElementsByTagName('tr');
+        for (let i = 1; i < rows.length; i++) { // Start from 1 to skip header row
+          const rowText = rows[i].textContent.toLowerCase();
+          if (rowText.includes(lowerCaseQuery)) {
+            rows[i].style.display = '';
+          } else {
+            rows[i].style.display = 'none';
           }
         }
       }
 
-      // Search input handler
+      // Handle search input events
       searchInput.addEventListener('input', (e) => {
         performSearch(e.target.value);
       });
 
-      // Toggle functionality for topic outlines
+      // Handle click events for toggling topic outlines
       document.addEventListener('click', (e) => {
         if (e.target.classList.contains('toggle-btn')) {
           const outline = e.target.nextElementSibling;
-          outline.classList.toggle('show');
+          if (outline) {
+            outline.classList.toggle('show');
+          }
         }
       });
 
-      // Mobile menu toggle (if needed in future)
-      const menuToggle = document.querySelector('.menu-toggle');
-      const navLinks = document.querySelector('.nav-links');
+      // Initialize page with the 'contacts' section active
+      showSection('contacts');
+    });
 
-      if (menuToggle) {
-        menuToggle.addEventListener('click', () => {
-          navLinks.classList.toggle('show');
-        });
-      }
-
-      // Smooth scrolling for better UX
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
+    // Add some interactive animations and styles dynamically
+    document.addEventListener('DOMContentLoaded', () => {
+      const style = document.createElement('style');
+      style.textContent = `
+        body {
+          opacity: 0;
+          transition: opacity 0.5s ease-in-out;
+        }
+        .call-btn, .toggle-btn, .link-button {
+          position: relative;
+          overflow: hidden;
+          -webkit-transform: translateZ(0); /* Promotes the element to its own layer */
+        }
+        .ripple {
+          position: absolute;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.6);
+          transform: scale(0);
+          animation: ripple-animation 0.6s linear;
+          pointer-events: none;
+        }
+        @keyframes ripple-animation {
+          to {
+            transform: scale(4);
+            opacity: 0;
           }
-        });
-      });
+        }
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+          }
+        }
+      `;
+      document.head.appendChild(style);
 
-      // Add loading animation for better perceived performance
       window.addEventListener('load', () => {
         document.body.style.opacity = '1';
       });
 
-      // Enhanced call functionality
-      window.call = function(number) {
-        // Remove any spaces or dashes from the number
-        const cleanNumber = number.replace(/[\s-]/g, '');
-        window.location.href = `tel:${cleanNumber}`;
-      };
-
-      // Initialize with contacts section active
-      showSection('contacts');
-    });
-
-    // Add some interactive animations
-    document.addEventListener('DOMContentLoaded', () => {
-      // Add hover effects to cards
-      const cards = document.querySelectorAll('.section');
-      cards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateY(-2px)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-          this.style.transform = 'translateY(0)';
-        });
-      });
-
       // Add ripple effect to buttons
-      document.querySelectorAll('.call-btn, .toggle-btn').forEach(button => {
-        button.addEventListener('click', function(e) {
+      document.body.addEventListener('click', function(e) {
+        const button = e.target.closest('.call-btn, .toggle-btn, .link-button');
+        if (button) {
           const ripple = document.createElement('span');
-          const rect = this.getBoundingClientRect();
+          const rect = button.getBoundingClientRect();
           const size = Math.max(rect.width, rect.height);
           const x = e.clientX - rect.left - size / 2;
           const y = e.clientY - rect.top - size / 2;
@@ -1302,57 +1418,20 @@
           ripple.style.top = y + 'px';
           ripple.classList.add('ripple');
           
-          this.appendChild(ripple);
+          // Ensure only one ripple is active at a time
+          const existingRipple = button.querySelector('.ripple');
+          if (existingRipple) {
+            existingRipple.remove();
+          }
+          
+          button.appendChild(ripple);
           
           setTimeout(() => {
             ripple.remove();
           }, 600);
-        });
+        }
       });
     });
-
-    // Add CSS for ripple effect
-    const style = document.createElement('style');
-    style.textContent = `
-      .call-btn, .toggle-btn {
-        position: relative;
-        overflow: hidden;
-      }
-      
-      .ripple {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.6);
-        transform: scale(0);
-        animation: ripple-animation 0.6s linear;
-        pointer-events: none;
-      }
-      
-      @keyframes ripple-animation {
-        to {
-          transform: scale(4);
-          opacity: 0;
-        }
-      }
-      
-      body {
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-      
-      .section {
-        transition: transform 0.3s ease;
-      }
-      
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-        }
-      }
-    `;
-    document.head.appendChild(style);
   </script>
 </body>
 </html>
